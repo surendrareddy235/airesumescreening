@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
 import bcrypt
-import jwt
+from jose import jwt
 from fastapi import HTTPException, status
 from config import settings
 

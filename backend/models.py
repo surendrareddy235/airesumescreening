@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, Decimal, Text, ForeignKey
+from sqlalchemy import Column, String, Integer, Boolean, DateTime, Text, ForeignKey
+from sqlalchemy.types import DECIMAL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -36,7 +37,7 @@ class Job(Base):
     jd_text = Column(Text, nullable=False)
     status = Column(String, default="queued")  # queued, processing, completed, failed
     tokens_used = Column(Integer, default=0)
-    cost = Column(Decimal(10, 2), default=0)
+    cost = Column(DECIMAL(10, 2), default=0)
     created_at = Column(DateTime, default=datetime.utcnow)
     
     # Relationships
@@ -53,7 +54,7 @@ class CandidateSummary(Base):
     phone = Column(String, nullable=True)
     experience_years = Column(Integer, default=0)
     skills = Column(Text, nullable=True)  # CSV string
-    match_score = Column(Decimal(5, 2), nullable=False)
+    match_score = Column(DECIMAL(5, 2), nullable=False)
     status = Column(String, default="under_review")  # shortlisted, under_review, not_qualified
     reasoning = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -78,7 +79,7 @@ class JobStats(Base):
     total_jobs = Column(Integer, default=0)
     total_candidates = Column(Integer, default=0)
     total_tokens_used = Column(Integer, default=0)
-    total_cost = Column(Decimal(10, 2), default=0)
+    total_cost = Column(DECIMAL(10, 2), default=0)
     updated_at = Column(DateTime, default=datetime.utcnow)
     
     # Relationships
@@ -90,7 +91,7 @@ class Payment(Base):
     id = Column(String, primary_key=True, default=generate_uuid)
     user_id = Column(String, ForeignKey("users.id"), nullable=False)
     stripe_payment_intent_id = Column(String, nullable=False)
-    amount = Column(Decimal(10, 2), nullable=False)
+    amount = Column(DECIMAL(10, 2), nullable=False)
     currency = Column(String, default="usd")
     status = Column(String, nullable=False)  # succeeded, failed, pending
     created_at = Column(DateTime, default=datetime.utcnow)
