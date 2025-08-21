@@ -5,6 +5,7 @@ import os
 from config import settings
 
 # Import routes
+from db import create_tables
 from routes.auth_routes import router as auth_router
 from routes.upload_routes import router as upload_router
 from routes.job_routes import router as job_router
@@ -40,6 +41,10 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.on_event("startup")
+def on_startup():
+    create_tables()
 
 if __name__ == "__main__":
     uvicorn.run(

@@ -4,10 +4,10 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./test.db")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "mysql+pymysql://root:19030ee235@localhost/resume")
     
     # JWT
-    JWT_SECRET: str = os.getenv("JWT_SECRET", "your-secret-key-change-in-production")
+    JWT_SECRET: str = os.getenv("JWT_SECRET", "@19030Ee235")
     JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
     JWT_EXPIRATION_HOURS: int = int(os.getenv("JWT_EXPIRATION_HOURS", "168"))  # 7 days
     

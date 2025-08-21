@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from models import Base, User, Job, CandidateSummary, EmailVerification, JobStats, Payment
 from config import settings
 
 # Create engine
