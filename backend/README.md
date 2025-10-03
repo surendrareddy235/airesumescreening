@@ -45,11 +45,11 @@ Add your MySQL database URL for testing, for example:
 
 DATABASE_URL=mysql+pymysql://username:password@localhost/db_name
 
-Keep the .env file private; do not commit it to GitHub.
+Keep the .env file private; do not commit it to GitHub. and add all the necessary things to the .env like smpt and add app setting key to it for testing the email ok are else you will see some errors
 
 Running the Backend
 
-Run the FastAPI app locally:
+# Run the FastAPI app locally:
 
 ```uvicorn main:app --reload```
 
