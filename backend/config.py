@@ -4,12 +4,12 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "mysql+pymysql://root:19030ee235@localhost/resume")
+    DATABASE_URL: str = os.getenv("DATABASE_URL")
     
     # JWT
-    JWT_SECRET: str = os.getenv("JWT_SECRET", "@19030Ee235")
-    JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
-    JWT_EXPIRATION_HOURS: int = int(os.getenv("JWT_EXPIRATION_HOURS", "168"))  # 7 days
+    JWT_SECRET: str = os.getenv("JWT_SECRET")
+    JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM")
+    JWT_EXPIRATION_HOURS: int = int(os.getenv("JWT_EXPIRATION_HOURS"))  # 7 days
     
     # SMTP Email
     SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
