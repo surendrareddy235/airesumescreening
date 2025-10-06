@@ -6,7 +6,7 @@ This is an **AI Resume Screening Project** using **Python** for the backend and 
 
 ## Prerequisites
 
-Make sure you have **Python** installed on your machine. All required Python packages are listed in the `requirements.txt` file.
+Make sure you have **Python** installed on your machine use older versions like 10,11,12 dont use newer versions. All required Python packages are listed in the `requirements.txt` file.
 
 To install dependencies, run:
 
@@ -36,14 +36,8 @@ After activation, (venv) will appear in your terminal. Then install the requirem
 ``` pip install -r requirements.txt ```
 
 ## Database Setup
-
-This project uses MySQL.
-
-Create a .env file in the root directory.
-
-Add your MySQL database URL for testing, for example:
-
-DATABASE_URL=mysql+pymysql://username:password@localhost/db_name
+when you run the code it will create sqlite database for testing and you can see it in the folder structure named as test.db
+and tables are created automatically
 
 Keep the .env file private; do not commit it to GitHub. and add all the necessary things to the .env like smpt and add app setting key to it for testing the email ok are else you will see some errors
 
