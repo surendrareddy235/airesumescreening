@@ -35,4 +35,4 @@ I'd love to collaborate on the frontend design and architecture. Open an issue o
 
 # About Project
 This is a AI Resume Screening that takes the bulk input resume profile and rank them and shortlist them it is purely depend on the AI.
-This is the starting so i am not adding much moving on i will add evething 
+This is the starting so i am not adding much 
