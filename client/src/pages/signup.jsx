@@ -113,7 +113,7 @@ export default function Signup() {
         </CardHeader>
         <CardContent>
           {step === "signup" ? (
-            <Form {...signupForm}>
+            <Form>
               <form onSubmit={signupForm.handleSubmit(onSignup)} className="space-y-4">
                 <FormField
                   control={signupForm.control}
@@ -179,7 +179,7 @@ export default function Signup() {
               </form>
             </Form>
           ) : (
-            <Form {...verifyForm}>
+            <Form>
               <form onSubmit={verifyForm.handleSubmit(onVerify)} className="space-y-4">
                 <div className="text-sm text-slate-600 mb-4">
                   We've sent a 6-digit verification code to <strong>{email}</strong>

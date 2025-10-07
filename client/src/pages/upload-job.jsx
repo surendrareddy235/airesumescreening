@@ -75,7 +75,7 @@ export default function UploadJob() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
+            <Form>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
