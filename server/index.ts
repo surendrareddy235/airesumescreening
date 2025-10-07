@@ -1,8 +1,29 @@
 import express, { type Request, Response, NextFunction } from "express";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
+
+// CORS configuration for local development
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests from localhost:5000 (frontend) when running locally
+    const allowedOrigins = [
+      'http://localhost:5000',
+      'http://127.0.0.1:5000',
+    ];
+    
+    // In development, allow all origins. In production, only allow same-origin
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all for now
+    }
+  },
+  credentials: true, // Allow cookies and auth headers
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
