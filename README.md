@@ -4,11 +4,11 @@ We're looking for React/JavaScript developers to build the homepage and frontend
 
 ## Skills Needed:
 
-React.js / Next.js
+React.js 
 
-JavaScript/TypeScript
+JavaScript
 
-CSS/Tailwind
+CSS
 
 API Integration
 
