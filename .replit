@@ -40,3 +40,7 @@ integrations = ["javascript_stripe==1.0.0", "javascript_mem_db==1.0.0"]
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[[ports]]
+localPort = 32811
+externalPort = 3000

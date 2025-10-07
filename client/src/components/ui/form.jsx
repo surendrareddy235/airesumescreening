@@ -3,7 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { clsx } from "clsx";
 
 const Form = ({ children, ...props }) => {
-  return <form {...props}>{children}</form>;
+  return <div {...props}>{children}</div>;
 };
 
 const FormFieldContext = createContext({});

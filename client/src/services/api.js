@@ -1,13 +1,7 @@
 export const API_BASE_URL = "/api";
 
-export interface ApiResponse<T = any> {
-  ok: boolean;
-  data?: T;
-  error?: string;
-}
-
 class ApiService {
-  private getAuthHeaders(): HeadersInit {
+  getAuthHeaders() {
     const token = localStorage.getItem("token");
     return {
       "Content-Type": "application/json",
@@ -15,10 +9,7 @@ class ApiService {
     };
   }
 
-  async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  async request(endpoint, options = {}) {
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         ...options,
@@ -35,31 +26,31 @@ class ApiService {
       }
 
       return { ok: true, data };
-    } catch (error: any) {
+    } catch (error) {
       return { ok: false, error: error.message };
     }
   }
 
-  async get<T>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { method: "GET" });
+  async get(endpoint) {
+    return this.request(endpoint, { method: "GET" });
   }
 
-  async post<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
+  async post(endpoint, data) {
+    return this.request(endpoint, {
       method: "POST",
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
-  async put<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
+  async put(endpoint, data) {
+    return this.request(endpoint, {
       method: "PUT",
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
-  async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { method: "DELETE" });
+  async delete(endpoint) {
+    return this.request(endpoint, { method: "DELETE" });
   }
 }
 
