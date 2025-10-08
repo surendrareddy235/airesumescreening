@@ -91,7 +91,7 @@ class PaymentRequest(BaseModel):
 
 # Export schemas  
 class ExportRequest(BaseModel):
-    format: str = Field("csv", regex="^(csv|xlsx)$")
+    format: str = Field("csv", pattern="^(csv|xlsx)$")
     candidates: List[str] = Field(default=["shortlisted"])  # shortlisted, all, under_review
 
 # Processing schemas

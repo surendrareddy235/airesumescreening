@@ -12,19 +12,19 @@ class Settings(BaseSettings):
     JWT_EXPIRATION_HOURS: int = int(os.getenv("JWT_EXPIRATION_HOURS", "168"))  # 7 days
     
     # SMTP Email
-    SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
-    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
-    SMTP_USER: str = os.getenv("SMTP_USER", "")
-    SMTP_PASS: str = os.getenv("SMTP_PASS", "")
-    SMTP_FROM: str = os.getenv("SMTP_FROM", "noreply@airesumescreening.com")
+    SMTP_HOST: str = os.getenv("SMTP_HOST")
+    SMTP_PORT: int = os.getenv("SMTP_PORT")
+    SMTP_USER: str = os.getenv("SMTP_USER")
+    SMTP_PASS: str = os.getenv("SMTP_PASS")
+    SMTP_FROM: str = os.getenv("SMTP_FROM")
     
     # External APIs
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
     
     # Stripe
-    STRIPE_SECRET_KEY: str = os.getenv("STRIPE_SECRET_KEY", "")
-    STRIPE_PUBLISHABLE_KEY: str = os.getenv("STRIPE_PUBLISHABLE_KEY", "")
-    STRIPE_WEBHOOK_SECRET: str = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+    STRIPE_SECRET_KEY: str = os.getenv("STRIPE_SECRET_KEY", "pk_test_dummy_key")
+    STRIPE_PUBLISHABLE_KEY: str = os.getenv("STRIPE_PUBLISHABLE_KEY", "pk_test_dummy_key")
+    STRIPE_WEBHOOK_SECRET: str = os.getenv("STRIPE_WEBHOOK_SECRET", "pk_test_dummy_key")
     
     # File Processing
     MAX_FILE_SIZE_MB: int = int(os.getenv("MAX_FILE_SIZE_MB", "8"))

@@ -1,0 +1,101 @@
+You are a code generator. Create a full-stack resume-screening SaaS project named "ai-resumescreening" (FastAPI backend + React frontend). Follow these exact specs and produce a runnable repo with start scripts. Provide placeholder secrets in .env.example. Keep code readable and commented.
+
+PROJECT OVERVIEW
+- Backend: FastAPI (Python 3.11+), Uvicorn, SQLAlchemy + MySQL, Background task worker (FastAPI BackgroundTasks), immediate auto-deletion of raw resume text & embeddings after processing, but store aggregated stats for dashboards.
+- Frontend: React (Vite), Axios, Chart.js (react-chartjs-2), drag-and-drop resume upload, JD input, processing progress, dashboard UI (cards, pie chart, table, export).
+- Resume parsing: PyPDF2 for PDF, python-docx for DOCX; accept only .pdf and .docx files.
+- Embeddings: sentence-transformers `all-MiniLM-L6-v2`.
+- Vector search: FAISS in-memory (faiss-cpu). Index rebuilt per uploaded job.
+- LLM: Groq API (Mixtral 8x7B) — include modular helper to call Groq; do NOT embed actual API key; use .env.
+- Billing: Stripe integration with a single prepaid plan ($5) + free trial allowance (first 50 resumes). Track usage (resumes processed) per user.
+- Auth: Signup with email verification code (6 digits), login with password. “Forgot password” link flow via email.
+- Exports: Excel/CSV export of shortlisted candidates (only ✅ candidates).
+- Error handling: return clear JSON errors; frontend show messages.
+- Requirements file and package.json, plus .env.example.
+
+REPO STRUCTURE
+- /backend
+  - app/
+    - main.py   # FastAPI app and CORS
+    - config.py # loads .env
+    - models.py # SQLAlchemy models: User, Job, CandidateSummary, Billing, Stats
+    - db.py     # SQLAlchemy engine & session
+    - auth.py   # signup/login/jwt helpers, password hashing
+    - emailer.py# SMTP email send + verification code
+    - routes/
+      - auth_routes.py
+      - upload_routes.py
+      - job_routes.py
+      - export_routes.py
+      - billing_routes.py
+    - processors/
+      - parser.py      # extract_text_from_pdf / extract_text_from_docx
+      - embedding.py   # load sentence-transformers model & create embeddings
+      - faiss_search.py# build index, query
+      - groq_client.py # wrapper to call Groq LLM for ranking/scoring
+      - scoring.py     # combine skill/expt/education weights (60/30/10) + groq fine-tune
+    - schemas.py # pydantic request/response models
+    - utils.py   # helpers, file checks, validate file types
+  - requirements.txt
+  - .env.example
+  - Dockerfile (optional)
+  - README.md with run steps
+- /frontend
+  - src/
+    - App.jsx
+    - main.jsx
+    - pages/
+      - Login.jsx
+      - Signup.jsx
+      - Dashboard.jsx    # single-page dashboard with summary cards, pie chart, candidate table, export
+      - UploadJob.jsx    # drag and drop + JD input
+    - components/
+      - SummaryCards.jsx
+      - PieChartCard.jsx
+      - CandidateTable.jsx
+      - JobPanel.jsx
+      - ExportButton.jsx
+      - Navbar.jsx
+    - services/
+      - api.js (axios instance)
+      - auth.js
+      - job.js
+    - styles/ (CSS or tailwind optional)
+  - index.html
+  - package.json
+  - vite.config.js
+- README root describing env vars and usage
+
+KEY FUNCTIONAL DETAILS (IMPLEMENT EXACTLY)
+1) AUTH / SIGNUP
+- POST /auth/signup: request { username, email, password }
+  - generate 6-digit verification code, save TEMP user row with code expiry (10 minutes), send code via SMTP
+- POST /auth/verify: { email, code } -> on success create real user, store hashed password, initialize free trial (50 resumes left)
+- POST /auth/login: returns JWT access token
+- POST /auth/forgot-password: send reset code
+- POST /auth/reset-password: verify code and set new password
+
+2) UPLOAD & JOB CREATION
+- Endpoint: POST /jobs/upload
+  - Auth required.
+  - Accept files[] (max per file 8MB, only .pdf/.docx), and job payload { title, jd_text }.
+  - Save files to a temp folder (server-side), create Job DB row with status=queued.
+  - Start background task to process:
+    a) For each file -> extract text (PyPDF2/python-docx).
+    b) Chunk the text (e.g., 512-token-ish chunks by sentence groups).
+    c) Produce embeddings for each chunk using `all-MiniLM-L6-v2`.
+    d) Build FAISS index in memory for this job.
+    e) For each candidate compute match score:
+       - Compute cosine similarity between JD embedding and candidate embedding(s) -> skills_score.
+       - Compute experience years extraction from parsed text (simple regex, fallback to 0) -> experience_score.
+       - Education detection: keyword match -> education_score.
+       - Weighted score = skills*0.60 + experience_norm*0.30 + education_norm*0.10.
+    f) Select top N (e.g., top 20) and send a Groq LLM prompt with JD + candidate summaries asking to rank/score top candidates and provide short reasoning & final Match% for each candidate.
+    g) Save only candidate metadata to MySQL: Name, Email, Phone (if found), Exp (years), Skills (top skills), final Match% and status (✅ if >= threshold e.g., 85%).
+    h) Update Job.status = completed and compute aggregated stats (tokens used, cost placeholder, total candidates).
+    i) **Auto-delete**: delete temp files + purge raw text and embeddings from memory. Persist only candidate metadata rows & aggregated stats for dashboard/export.
+  - Return Job ID immediately, and frontend polls /jobs/{id}/status.
+
+3) SCORING & GROQ PROMPT (include sample)
+- scoring.py should implement default weights: skills 60, experience 30, education 10. Also expose config to change weights in config.py.
+- groq_client.py must accept a list of candidate summaries and JD, call Groq API, and return per-candidate adjusted Match% and a short explanation. Use a safe prompt:

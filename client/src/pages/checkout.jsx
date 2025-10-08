@@ -9,10 +9,12 @@ import Navbar from "../components/navbar";
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
-if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
+const stripeKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY || "pk_test_dummy_key";
+
+if (!stripeKey) {
   throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
 }
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(stripeKey);
 
 const CheckoutForm = () => {
   const stripe = useStripe();

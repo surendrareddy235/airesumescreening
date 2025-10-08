@@ -19,6 +19,8 @@ pydantic-settings==2.1.0
 httpx==0.25.2
 numpy==1.26.2
 torch==2.1.2
-transformers==4.36.2
+transformers==4.33.2
 scikit-learn==1.3.2
 pydantic==2.5.1
+PyJWT
+huggingface_hub==0.16.4

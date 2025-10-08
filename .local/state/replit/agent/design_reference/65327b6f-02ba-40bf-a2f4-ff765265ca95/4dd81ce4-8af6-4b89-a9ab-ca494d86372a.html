@@ -1,0 +1,537 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Screening - Professional Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af'
+                        },
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        },
+                        success: {
+                            50: '#ecfdf5',
+                            500: '#10b981',
+                            600: '#059669'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-slate-50 font-sans">
+    <!-- @COMPONENT: Navbar -->
+    <nav class="bg-white shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-xl font-bold text-slate-800">
+                            <i class="fas fa-robot text-primary-500 mr-2"></i>
+                            AI Resume Screening
+                        </h1>
+                    </div>
+                    <div class="hidden md:block ml-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="#" class="text-primary-600 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-primary-500">Dashboard</a>
+                            <a href="#" class="text-slate-500 hover:text-slate-700 px-3 py-2 rounded-md text-sm font-medium">Upload Job</a>
+                            <a href="#" class="text-slate-500 hover:text-slate-700 px-3 py-2 rounded-md text-sm font-medium">Billing</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-slate-600" data-bind="user.email">john.doe@company.com</span>
+                    <button class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-bell text-lg"></i>
+                    </button>
+                    <div class="relative">
+                        <button class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <div class="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
+                                <span class="text-white font-medium">JD</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navbar -->
+
+    <!-- @COMPONENT: MainDashboard -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- @COMPONENT: SummaryCards [4 cards in row layout] -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Tokens Used Card -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-microchip text-primary-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-slate-600">Tokens Used</p>
+                        <p class="text-2xl font-bold text-slate-900" data-bind="stats.tokensUsed">124,567</p>
+                        <p class="text-xs text-slate-500">This month</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Card -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-dollar-sign text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-slate-600">Cost</p>
+                        <p class="text-2xl font-bold text-slate-900" data-bind="stats.cost">$24.50</p>
+                        <p class="text-xs text-slate-500">This month</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remaining Balance Card -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-success-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-wallet text-success-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-slate-600">Remaining Balance</p>
+                        <p class="text-2xl font-bold text-slate-900" data-bind="user.remainingBalance">18 resumes</p>
+                        <p class="text-xs text-success-600">Free trial</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Candidates Card -->
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-purple-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-slate-600">Total Candidates</p>
+                        <p class="text-2xl font-bold text-slate-900" data-bind="stats.totalCandidates">47</p>
+                        <p class="text-xs text-slate-500">Current job</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: SummaryCards -->
+
+        <!-- Export Button Row -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-semibold text-slate-800">Job Analysis Results</h2>
+            <!-- @COMPONENT: ExportButton -->
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-success-600 hover:bg-success-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success-500 transition-colors" data-event="click:handleExport">
+                <i class="fas fa-download mr-2"></i>
+                Export Shortlisted (12)
+            </button>
+            <!-- @END_COMPONENT: ExportButton -->
+        </div>
+
+        <!-- @COMPONENT: AnalyticsRow [Side-by-side layout: Pie Chart + Candidate Table] -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            
+            <!-- @COMPONENT: PieChartCard -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-4">Match Score Distribution</h3>
+                    <div class="relative">
+                        <canvas id="matchScoreChart" width="300" height="300"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-slate-900" data-bind="stats.avgMatch">73%</div>
+                                <div class="text-sm text-slate-500">Avg Match</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                                <span class="text-sm text-slate-600">0-50%</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-800" data-bind="distribution.low">23%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                                <span class="text-sm text-slate-600">50-80%</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-800" data-bind="distribution.medium">51%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                                <span class="text-sm text-slate-600">80-90%</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-800" data-bind="distribution.high">19%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-success-500 rounded-full mr-2"></div>
+                                <span class="text-sm text-slate-600">90-100%</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-800" data-bind="distribution.excellent">7%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: PieChartCard -->
+
+            <!-- @COMPONENT: CandidateTable -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200">
+                        <h3 class="text-lg font-semibold text-slate-800">Candidate Rankings</h3>
+                        <p class="text-sm text-slate-600 mt-1">Sorted by Match Score (Descending)</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Phone</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Exp</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Skills</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Match%</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-slate-200">
+                                <!-- @MAP: candidates.sort((a, b) => b.matchScore - a.matchScore).map(candidate => ( -->
+                                <tr class="hover:bg-slate-50 bg-success-50 border-l-4 border-success-500" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-slate-900" data-bind="candidate.name">Sarah Johnson</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.email">s.johnson@email.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.phone">+1 (555) 123-4567</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-900" data-bind="candidate.experience">8 yrs</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.skills">React, Node.js, Python</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-success-600" data-bind="candidate.matchScore">94%</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                                            <i class="fas fa-check mr-1"></i>
+                                            Shortlisted
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-slate-50 bg-success-50 border-l-4 border-success-500" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-slate-900" data-bind="candidate.name">Michael Chen</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.email">m.chen@email.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.phone">+1 (555) 987-6543</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-900" data-bind="candidate.experience">6 yrs</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.skills">Java, Spring, AWS</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-success-600" data-bind="candidate.matchScore">89%</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                                            <i class="fas fa-check mr-1"></i>
+                                            Shortlisted
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-slate-50" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-slate-900" data-bind="candidate.name">Emily Rodriguez</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.email">e.rodriguez@email.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.phone">+1 (555) 456-7890</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-900" data-bind="candidate.experience">4 yrs</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.skills">Vue.js, PHP, MySQL</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-blue-600" data-bind="candidate.matchScore">78%</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Under Review
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-slate-50" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-slate-900" data-bind="candidate.name">David Park</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.email">d.park@email.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.phone">+1 (555) 789-0123</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-900" data-bind="candidate.experience">3 yrs</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.skills">Angular, .NET, SQL</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-yellow-600" data-bind="candidate.matchScore">65%</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Under Review
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-slate-50" data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-slate-900" data-bind="candidate.name">Lisa Thompson</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.email">l.thompson@email.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.phone">+1 (555) 234-5678</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-900" data-bind="candidate.experience">2 yrs</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-slate-500" data-bind="candidate.skills">HTML, CSS, JavaScript</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-semibold text-red-600" data-bind="candidate.matchScore">42%</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            <i class="fas fa-times mr-1"></i>
+                                            Not Qualified
+                                        </span>
+                                    </td>
+                                </tr>
+                                <!-- @END_MAP )) -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-3 bg-slate-50 border-t border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-slate-500">
+                                Showing 5 of 47 candidates
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-100">Previous</button>
+                                <button class="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-100">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: CandidateTable -->
+        </div>
+        <!-- @END_COMPONENT: AnalyticsRow -->
+
+        <!-- @COMPONENT: JobPanel [Full width under analytics] -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-slate-800">Job Description</h3>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                    <i class="fas fa-briefcase mr-1"></i>
+                    Senior Full Stack Developer
+                </span>
+            </div>
+            <div class="prose max-w-none">
+                <div class="text-sm text-slate-600 leading-relaxed" data-bind="job.description">
+                    <p class="mb-4">We are seeking a highly skilled Senior Full Stack Developer to join our dynamic team. The ideal candidate will have extensive experience in both front-end and back-end development, with a strong passion for creating scalable, efficient, and user-friendly web applications.</p>
+                    
+                    <h4 class="font-semibold text-slate-800 mb-2">Key Responsibilities:</h4>
+                    <ul class="list-disc list-inside mb-4 space-y-1">
+                        <li>Design and develop robust web applications using modern frameworks and technologies</li>
+                        <li>Collaborate with cross-functional teams to define and implement new features</li>
+                        <li>Optimize applications for maximum speed and scalability</li>
+                        <li>Ensure code quality through testing and code reviews</li>
+                    </ul>
+                    
+                    <h4 class="font-semibold text-slate-800 mb-2">Required Skills:</h4>
+                    <ul class="list-disc list-inside mb-4 space-y-1">
+                        <li>5+ years of experience in full-stack development</li>
+                        <li>Proficiency in React.js, Node.js, and Python</li>
+                        <li>Experience with database technologies (SQL and NoSQL)</li>
+                        <li>Knowledge of cloud platforms (AWS, Azure, or GCP)</li>
+                        <li>Strong understanding of software development lifecycle</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: JobPanel -->
+
+    </div>
+    <!-- @END_COMPONENT: MainDashboard -->
+
+    <!-- @COMPONENT: LoadingModal -->
+    <div id="loadingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden" data-mock="true">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-primary-100">
+                    <i class="fas fa-cog fa-spin text-primary-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Processing Resumes</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">AI is analyzing and scoring candidates. This may take a few minutes...</p>
+                    <div class="mt-4">
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary-600 h-2 rounded-full transition-all duration-300" style="width: 65%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Step 3 of 4: Computing match scores...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: LoadingModal -->
+
+    <script>
+        (function() {
+            // @FUNCTIONALITY: Initialize pie chart for match score distribution
+            const ctx = document.getElementById('matchScoreChart').getContext('2d');
+            
+            // Create donut chart with center text space
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['0-50%', '50-80%', '80-90%', '90-100%'],
+                    datasets: [{
+                        data: [23, 51, 19, 7], // Mock data representing percentage distribution
+                        backgroundColor: [
+                            '#EF4444', // red-500
+                            '#EAB308', // yellow-500  
+                            '#3B82F6', // blue-500
+                            '#10B981'  // success-500
+                        ],
+                        borderWidth: 0,
+                        cutout: '70%' // Creates donut effect with center space
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false // Hide default legend, using custom legend below
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // @FUNCTIONALITY: Handle export button click
+            document.querySelector('[data-event="click:handleExport"]').addEventListener('click', function() {
+                // TODO: Implement actual export functionality
+                console.log('Exporting shortlisted candidates...');
+                
+                // Mock export process
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Exporting...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-download mr-2"></i>Export Shortlisted (12)';
+                    this.disabled = false;
+                    // TODO: Trigger actual file download
+                }, 2000);
+            });
+
+            // @FUNCTIONALITY: Mock real-time updates for dashboard stats
+            function updateDashboardStats() {
+                // TODO: Replace with actual API calls to fetch real-time data
+                const elements = {
+                    tokensUsed: document.querySelector('[data-bind="stats.tokensUsed"]'),
+                    cost: document.querySelector('[data-bind="stats.cost"]'),
+                    totalCandidates: document.querySelector('[data-bind="stats.totalCandidates"]'),
+                    avgMatch: document.querySelector('[data-bind="stats.avgMatch"]')
+                };
+                
+                // Mock data updates would come from WebSocket or polling
+                console.log('Dashboard stats updated');
+            }
+
+            // @STATE: jobProcessingStatus = 'completed' | 'processing' | 'queued'
+            let jobProcessingStatus = 'completed';
+
+            // @FUNCTIONALITY: Handle table row interactions
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.addEventListener('click', function() {
+                    // TODO: Implement candidate detail view or selection
+                    console.log('Candidate row clicked:', this);
+                });
+            });
+
+            // Initialize dashboard
+            updateDashboardStats();
+        })();
+    </script>
+</body>
+</html>
