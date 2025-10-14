@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-// Assuming Button and useToast are imported from a UI library like shadcn/ui or similar.
-// For this single file, we'll create simple mock versions for demonstration.
+import { useState, useEffect } from "react"; // useEffect is needed for GlobalStyles
 
 // Mock Button component
 const Button = ({ children, onClick, disabled, className, 'data-testid': dataTestId }) => (
@@ -20,14 +18,187 @@ const useToast = () => ({
   toast: (options) => {
     console.log("Toast:", options.title, options.description, options.variant);
     // In a real app, this would show a notification.
+    // For this mock, we'll alert based on the variant for visibility.
+    if (options.variant === "destructive") {
+      alert(`[ERROR] ${options.title}: ${options.description}`);
+    } else {
+      alert(`[SUCCESS] ${options.title}: ${options.description}`);
+    }
   },
 });
+
+// --- Start of Global Styles for Mock UI Classes ---
+
+/**
+ * Injects necessary CSS to mock Tailwind utility classes and Font Awesome icons 
+ * for a good visual result in a single file React environment.
+ */
+function GlobalStyles() {
+  const css = `
+    /* Basic Setup */
+    body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
+    
+    /* Mock Colors/Classes (Approximations) */
+    .min-h-screen { min-height: 100vh; }
+    .bg-slate-100 { background-color: #f1f5f9; }
+    .bg-white { background-color: #ffffff; }
+    .text-slate-900 { color: #0f172a; }
+    .text-slate-800 { color: #1e293b; }
+    .text-slate-600 { color: #475569; }
+    .text-slate-500 { color: #64748b; }
+    .border-slate-200 { border-color: #e2e8f0; }
+    .bg-slate-50 { background-color: #f8fafc; }
+    .hover\\:bg-slate-50:hover { background-color: #f8fafc; }
+    .hover\\:bg-slate-100:hover { background-color: #f1f5f9; }
+    
+    /* Primary (Blue) */
+    .bg-primary-100 { background-color: #dbeafe; } /* Blue-100 */
+    .text-primary-800 { color: #1e40af; } /* Blue-800 */
+    .text-primary-600 { color: #2563eb; } /* Blue-600 */
+    
+    /* Success (Green) */
+    .bg-success-50 { background-color: #f0fdf4; } /* Green-50 */
+    .bg-success-100 { background-color: #dcfce7; } /* Green-100 */
+    .text-success-800 { color: #166534; } /* Green-800 */
+    .bg-success-600 { background-color: #16a34a; } /* Green-600 */
+    .hover\\:bg-success-700:hover { background-color: #15803d; } /* Green-700 */
+    .focus\\:ring-success-500:focus { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #22c55e; } /* Green-500 ring */
+    .border-success-500 { border-color: #22c55e; } /* Green-500 */
+    .text-success-600 { color: #16a34a; } /* Green-600 */
+
+    /* Warning/Yellow */
+    .bg-yellow-100 { background-color: #fef9c3; } /* Yellow-100 */
+    .text-yellow-600 { color: #eab308; } /* Yellow-600 */
+
+    /* Danger/Red */
+    .bg-red-100 { background-color: #fee2e2; } /* Red-100 */
+    .text-red-800 { color: #991b1b; } /* Red-800 */
+    .text-red-600 { color: #dc2626; } /* Red-600 */
+    
+    /* Purple */
+    .bg-purple-100 { background-color: #ede9fe; } /* Purple-100 */
+    .text-purple-600 { color: #7c3aed; } /* Purple-600 */
+
+    /* Other Styles */
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-md { border-radius: 0.375rem; }
+    .rounded-full { border-radius: 9999px; }
+    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+    .hover\\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
+    .transition-colors { transition-property: background-color, border-color, color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .transition-shadow { transition-property: box-shadow; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .border { border-width: 1px; border-style: solid; }
+    .border-l-4 { border-left-width: 4px; border-left-style: solid; }
+    
+    /* Utility Helpers for Flex/Grid/Layout (Simplified) */
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .space-x-2 > * + * { margin-left: 0.5rem; }
+    .grid { display: grid; }
+    .gap-6 { gap: 1.5rem; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    @media (min-width: 768px) { .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { 
+      .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } 
+      .lg\\:col-span-1 { grid-column: span 1 / span 1; }
+      .lg\\:col-span-2 { grid-column: span 2 / span 2; }
+    }
+    
+    /* Font Sizing/Weight/Padding/Margin (Simplified) */
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .p-8 { padding: 2rem; }
+    .p-6 { padding: 1.5rem; }
+    /* ... and so on for all used classes (p-4, py-3, mb-8, mt-1, ml-4, mr-2, etc.) */
+    
+    /* For demonstration, let's include all common ones used: */
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .px-2.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+    .py-0.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .ml-4 { margin-left: 1rem; }
+    .mr-2 { margin-right: 0.5rem; }
+    .mr-1 { margin-right: 0.25rem; }
+    .leading-relaxed { line-height: 1.625; }
+    .whitespace-pre-line { white-space: pre-line; }
+    .whitespace-nowrap { white-space: nowrap; }
+    .tracking-wider { letter-spacing: 0.05em; }
+    .uppercase { text-transform: uppercase; }
+    .text-left { text-align: left; }
+    .overflow-hidden { overflow: hidden; }
+    .overflow-x-auto { overflow-x: auto; }
+    .divide-y > :not([hidden]) ~ :not([hidden]) { border-top-width: 1px; }
+    .min-w-full { min-width: 100%; }
+    .inline-flex { display: inline-flex; }
+
+    /* Mock Font Awesome (Icons) - Using a simple fallback or Unicode for quick demo */
+    /* This requires a real Font Awesome library to be fully functional, 
+       but we can use a basic 'i' tag with a fallback font family for the layout. */
+    .fas:before { font-style: normal; font-weight: 900; content: "•"; }
+    .fa-check:before { content: "✔"; }
+    .fa-times:before { content: "✖"; }
+    .fa-clock:before { content: "⏳"; }
+    .fa-spinner:before { content: "⟳"; } /* Simple spinning mock */
+    .fa-microchip:before { content: "칩"; }
+    .fa-dollar-sign:before { content: "$"; }
+    .fa-wallet:before { content: "💳"; }
+    .fa-users:before { content: "👥"; }
+    .fa-briefcase:before { content: "💼"; }
+    .fa-download:before { content: "⬇"; }
+
+    /* Button Focus Ring Mock */
+    button:focus:not(:focus-visible) { outline: none; }
+    button:focus-visible { outline: 2px solid; outline-offset: 2px; }
+    .focus\\:ring-success-500:focus-visible { outline-color: #22c55e; }
+    
+    /* Table hover styles */
+    .hover\\:bg-slate-50:hover { background-color: #f8fafc; }
+    
+    /* Simple spin animation for mock spinner */
+    .fa-spin { animation: spin 1s linear infinite; }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+  `;
+
+  // Use useEffect to inject the style tag into the document head
+  useEffect(() => {
+    const styleTag = document.createElement("style");
+    styleTag.textContent = css;
+    document.head.appendChild(styleTag);
+    return () => {
+      document.head.removeChild(styleTag);
+    };
+  }, [css]);
+
+  return null; // This component renders nothing itself
+}
+
+// --- End of Global Styles for Mock UI Classes ---
 
 // --- Start of Component Definitions (Internal to JobDashboard) ---
 
 /**
  * Renders the candidate data table.
- * The original CandidateTable component logic is placed here.
  */
 function CandidateTable({ jobId }) {
   // Mock data for demo since we don't have a real job ID yet
@@ -126,7 +297,7 @@ function CandidateTable({ jobId }) {
   const getScoreColor = (score) => {
     const numScore = parseFloat(score);
     if (numScore >= 85) return "text-success-600";
-    if (numScore >= 70) return "text-blue-600";
+    if (numScore >= 70) return "text-primary-600"; // Changed blue-600 to primary-600
     if (numScore >= 50) return "text-yellow-600";
     return "text-red-600";
   };
@@ -228,7 +399,6 @@ function CandidateTable({ jobId }) {
 
 /**
  * Renders the export button functionality.
- * The original ExportButton component logic is placed here.
  */
 function ExportButton({ jobId }) {
   const [isExporting, setIsExporting] = useState(false);
@@ -257,20 +427,8 @@ function ExportButton({ jobId }) {
       });
 
       // NOTE: The actual fetch/download logic is commented out/mocked for this single file environment.
-      // In a real app, the code below would handle the actual download:
-      /*
-      const response = await fetch(`/api/export/job/${jobId}/shortlisted`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.ok) {
-        // ... file download logic ...
-      } else {
-        throw new Error("Export failed");
-      }
-      */
+      // ... actual download logic ...
+      
     } catch (error) {
       toast({
         title: "Export failed",
@@ -311,7 +469,6 @@ function ExportButton({ jobId }) {
 
 /**
  * Renders the job description panel.
- * The original JobPanel component logic is placed here.
  */
 function JobPanel({ jobId }) {
   // Mock job data for demo
@@ -358,7 +515,6 @@ Required Skills:
 
 /**
  * Renders the summary statistics cards.
- * The original SummaryCards component logic is placed here.
  */
 function SummaryCards({ stats }) {
   return (
@@ -462,29 +618,30 @@ export default function JobDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 p-8">
-      <header className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">Job Analysis Dashboard</h1>
-        <ExportButton jobId={mockJobId} />
-      </header>
-      <main>
-        {/* Summary Statistics */}
-        <SummaryCards stats={mockStats} />
+    <>
+      <GlobalStyles />
+      <div className="min-h-screen bg-slate-100 p-8">
+        <header className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold text-slate-900">Job Analysis Dashboard</h1>
+          <ExportButton jobId={mockJobId} />
+        </header>
+        <main>
+          {/* Summary Statistics */}
+          <SummaryCards stats={mockStats} />
 
-        {/* Layout for Job Details and Candidate Table */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            {/* Job Description Panel */}
-            <JobPanel jobId={mockJobId} />
+          {/* Layout for Job Details and Candidate Table */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1">
+              {/* Job Description Panel */}
+              <JobPanel jobId={mockJobId} />
+            </div>
+            <div className="lg:col-span-2">
+              {/* Candidate Ranking Table */}
+              <CandidateTable jobId={mockJobId} />
+            </div>
           </div>
-          <div className="lg:col-span-2">
-            {/* Candidate Ranking Table */}
-            <CandidateTable jobId={mockJobId} />
-          </div>
-        </div>
-      </main>
-      {/* Note: Tailwind CSS utility classes are assumed to be available. */}
-      {/* Font Awesome icons (fas) are assumed to be included. */}
-    </div>
+        </main>
+      </div>
+    </>
   );
 }
