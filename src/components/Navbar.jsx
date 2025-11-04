@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // NOTE: This URL object is required for the logo to display correctly.
 // User must update this to a public URL to see the image.
@@ -65,15 +66,15 @@ const Navbar = ({ logoUrl = IMAGE_URLS.LOGO_PLACEHOLDER }) => {
             <a href="#about" className={navLinkClass}>About Us</a>
             <a href="#pricing" className={navLinkClass}>Pricing</a>
             
-            {/* Login Button (Lighter Shining Gray) */}
-            <button className={buttonClass(false)}>
+            {/* Login Button (Lighter Shining Gray) - CHANGED TO LINK */}
+            <Link to="/LoginPage" className={buttonClass(false)}>
               Login
-            </button>
+            </Link>
             
-            {/* Sign Up Button (Darker Shining Gray) */}
-            <button className={buttonClass(true)}>
+            {/* Sign Up Button (Darker Shining Gray) - CHANGED TO LINK */}
+            <Link to="/signup" className={buttonClass(true)}>
               Sign Up
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button (Hamburger) */}
@@ -96,14 +97,14 @@ const Navbar = ({ logoUrl = IMAGE_URLS.LOGO_PLACEHOLDER }) => {
         </div>
         
         <div className="pt-4 pb-3 border-t border-gray-200 space-y-2 px-4 flex flex-col">
-          {/* Mobile Login Button */}
-          <button className={buttonClass(false) + ' w-full'}>
+          {/* Mobile Login Button - CHANGED TO LINK */}
+          <Link to="/login" className={buttonClass(false) + ' w-full'} onClick={() => setIsMenuOpen(false)}>
             Login
-          </button>
-          {/* Mobile Sign Up Button */}
-          <button className={buttonClass(true) + ' w-full'}>
+          </Link>
+          {/* Mobile Sign Up Button - CHANGED TO LINK */}
+          <Link to="/signup" className={buttonClass(true) + ' w-full'} onClick={() => setIsMenuOpen(false)}>
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
     </header>
