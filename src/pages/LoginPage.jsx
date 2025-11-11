@@ -29,10 +29,11 @@ const LoginPage = () => {
     }
 
     try {
-      console.log("Login request payload:", formData);
+        console.log("Login request payload:", formData);
 
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
       const response = await axios.post(
-        "http://airs.loca.lt/api/auth/login",
+          `${API_BASE_URL}/api/auth/login`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -45,7 +46,7 @@ const LoginPage = () => {
       }
 
       // Redirect to dashboard
-      navigate("/dashboard");
+      navigate("/DashboardPage");
     } catch (err) {
       console.error("Login error:", err);
 
