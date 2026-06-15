@@ -7,7 +7,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         target:
-          "https://resumezai-cqfzgtffhheqfrfg.centralindia-01.azurewebsites.net",
+          "https://api.empikaai.com",
         changeOrigin: true,
         secure: true,
       },

@@ -47,7 +47,7 @@ const SignupPage = () => {
   const handleGoogleLogin = () => {
     if (!selectedPurpose) return;
     window.location.href =
-      `http://empikaai-dzhbdehthycve5bd.centralindia-01.azurewebsites.net/api/auth/login/google?purpose=${selectedPurpose}`;
+      `http://api.empikaai.com/api/auth/login/google?purpose=${selectedPurpose}`;
   };
 
   return (

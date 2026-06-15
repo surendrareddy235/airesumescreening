@@ -5,7 +5,7 @@ const RAZORPAY_SCRIPT_URL = "https://checkout.razorpay.com/v1/checkout.js";
 // Mirrors the same base URL logic used in instanceAPI (axios config)
 const BASE_URL =
   window?.config?.ApiUrl ||
-  "https://empikaai-dzhbdehthycve5bd.centralindia-01.azurewebsites.net/api";
+  "https://api.empikaai.com/api";
 
 /**
  * Dynamically loads the Razorpay checkout.js script exactly once.

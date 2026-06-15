@@ -36,7 +36,7 @@ const LoginPage = () => {
 
   const handleGoogleLogin = () => {
     window.location.href =
-      "http://empikaai-dzhbdehthycve5bd.centralindia-01.azurewebsites.net/api/auth/login/google";
+      "http://api.empikaai.com/api/auth/login/google";
   };
 
   return (
