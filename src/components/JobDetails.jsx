@@ -29,15 +29,46 @@ function JobDetails({ jobDetails }) {
   }
 
   const { title, jd_parsed } = jobDetails;
+
+  const normalizeList = (value) => {
+    if (!value) return [];
+    if (Array.isArray(value)) {
+      return value.map((item) => String(item).trim()).filter(Boolean);
+    }
+    if (typeof value === "string") {
+      return value
+        .split(/[,\n•]/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+    if (typeof value === "object") {
+      return Object.values(value)
+        .flatMap((item) => normalizeList(item))
+        .filter(Boolean);
+    }
+    return [String(value).trim()].filter(Boolean);
+  };
+
   const {
     role,
     sector,
-    "all technologies": technologies,
-    soft_skills: softSkills,
     jd_experience,
     education_level,
     location,
   } = jd_parsed || {};
+
+  const technologies = normalizeList(
+    jd_parsed?.all_technologies ??
+    jd_parsed?.["all technologies"] ??
+      jd_parsed?.technologies ??
+      jd_parsed?.technical_skills ??
+      jd_parsed?.skills ??
+      jd_parsed?.technology_stack,
+  );
+
+  const softSkills = normalizeList(
+    jd_parsed?.soft_skills ?? jd_parsed?.softSkills,
+  );
 
   const SectionTitle = ({ icon: Icon, title }) => (
     <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
@@ -147,4 +178,5 @@ function JobDetails({ jobDetails }) {
 }
 
 export default JobDetails;
+
 

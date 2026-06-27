@@ -36,7 +36,20 @@ export default function CandidateModal({ open, onClose, data }) {
     rejected: { bg: "#FEE2E2", color: "#991B1B" },
     pending: { bg: "#FEF3C7", color: "#92400E" },
   };
-  const combined = Object.values(data.reasoning).join(" ");
+  const normalizeReasoning = (reasoning) => {
+    if (!reasoning) return "No screening reason available.";
+    if (typeof reasoning === "string") return reasoning.trim();
+    if (Array.isArray(reasoning)) return reasoning.filter(Boolean).join(" ").trim();
+    if (typeof reasoning === "object") {
+      return Object.values(reasoning)
+        .flatMap((value) => (Array.isArray(value) ? value : [value]))
+        .filter(Boolean)
+        .join(" ")
+        .trim();
+    }
+    return String(reasoning).trim();
+  };
+  const combined = normalizeReasoning(data.reasoning);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -154,3 +167,4 @@ export default function CandidateModal({ open, onClose, data }) {
     </Dialog>
   );
 }
+
