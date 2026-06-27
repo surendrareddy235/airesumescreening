@@ -6,8 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target:
-          "https://resumezai-cqfzgtffhheqfrfg.centralindia-01.azurewebsites.net",
+        target: process.env.VITE_API_URL || "http://localhost:8000",
         changeOrigin: true,
         secure: true,
       },

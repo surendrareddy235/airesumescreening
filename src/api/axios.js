@@ -1,14 +1,8 @@
 import axios from "axios";
-
-const BASE_URL =
-    window?.config?.ApiUrl ||
-    //for local
-    // "/api";
-    // for Cloud site
-    "https://empikaai-dzhbdehthycve5bd.centralindia-01.azurewebsites.net/api";
+import { API_URL } from "../config";
 
 const instanceAPI = axios.create({
-    baseURL: BASE_URL,
+    baseURL: API_URL,
     withCredentials: true, // ✅ COOKIE AUTH
 });
 

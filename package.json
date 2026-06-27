@@ -1,7 +1,7 @@
 {
     "name":  "resume-screening-platform",
     "private":  true,
-    "proxy":  "https://resumezai-cqfzgtffhheqfrfg.centralindia-01.azurewebsites.net",
+
     "version":  "0.0.0",
     "type":  "module",
     "scripts":  {

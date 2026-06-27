@@ -23,7 +23,7 @@ import SignupPage from "./pages/SignUpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import JobsDashboardPage from "./pages/JobsDashboardPage";
 import CandidatesDashboardPage from "./pages/CandidateDashboardPage";
-import JobSearchPage from "./pages/JobSearch/JobSearchPage";
+import UnderDevelopmentPage from "./pages/UnderDevelopmentPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/common/ProtectedRoutes";
 import Profile from "./components/common/Profile";
@@ -163,7 +163,7 @@ export default function App() {
             {/* Neural Dashboard Layout Routes */}
             <Route element={<ProtectedRoute />}>
               <Route element={<NeuralDashboardLayout />}>
-                <Route path="/job-search" element={<JobSearchPage />} />
+                <Route path="/job-search" element={<UnderDevelopmentPage title="Job Search" message="The job search experience is still being built. Please check back soon." />} />
                 <Route path="/resume-optimizer" element={<ResumeOptimizerPage />} />
               </Route>
             </Route>
@@ -173,3 +173,5 @@ export default function App() {
     </AuthProvider>
   );
 }
+
+
