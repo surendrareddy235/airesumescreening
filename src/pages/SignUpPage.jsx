@@ -20,6 +20,7 @@ import { Person, Email, Lock, LockOpen, VpnKey, WorkOutline, DescriptionOutlined
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { keyframes } from "@emotion/react";
+import { API_BASE_URL } from "../config";
 
 /* Animation */
 const floatAnimation = keyframes`
@@ -46,8 +47,7 @@ const SignupPage = () => {
 
   const handleGoogleLogin = () => {
     if (!selectedPurpose) return;
-    window.location.href =
-      `http://api.empikaai.com/api/auth/login/google?purpose=${selectedPurpose}`;
+    window.location.href = `${API_BASE_URL}/api/auth/login/google?purpose=${selectedPurpose}`;
   };
 
   return (

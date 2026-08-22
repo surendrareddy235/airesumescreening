@@ -16,6 +16,7 @@ import { Email, Lock } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { keyframes } from "@emotion/react";
+import { API_BASE_URL } from "../config";
 
 /* Animations */
 const floatAnimation = keyframes`
@@ -35,8 +36,7 @@ const LoginPage = () => {
   } = useAuth();
 
   const handleGoogleLogin = () => {
-    window.location.href =
-      "http://api.empikaai.com/api/auth/login/google";
+    window.location.href = `${API_BASE_URL}/api/auth/login/google`;
   };
 
   return (

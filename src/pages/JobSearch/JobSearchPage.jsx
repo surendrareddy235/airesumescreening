@@ -49,7 +49,7 @@ export default function JobSearchPage() {
     setError(null);
     try {
       const fetched = await listAllJobs(0, 50);
-      setJobs(fetched || []);
+      setJobs(fetched.items || []);
     } catch (err) {
       setError(err.message || "Failed to load jobs.");
     } finally {
@@ -74,7 +74,7 @@ export default function JobSearchPage() {
       } catch (searchErr) {
         // Fallback: If session not found, just fetch all jobs and filter locally
         const all = await listAllJobs(0, 50);
-        let filtered = all;
+        let filtered = all.items;
         if (location) {
           filtered = filtered.filter(j => j.location && j.location.toLowerCase().includes(location.toLowerCase()));
         }

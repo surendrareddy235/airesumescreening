@@ -2,10 +2,10 @@ import { useCallback, useState } from "react";
 
 const RAZORPAY_SCRIPT_URL = "https://checkout.razorpay.com/v1/checkout.js";
 
+import { API_URL } from "../config";
+
 // Mirrors the same base URL logic used in instanceAPI (axios config)
-const BASE_URL =
-  window?.config?.ApiUrl ||
-  "https://api.empikaai.com/api";
+const BASE_URL = API_URL;
 
 /**
  * Dynamically loads the Razorpay checkout.js script exactly once.

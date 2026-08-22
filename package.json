@@ -1,7 +1,7 @@
 {
     "name":  "resume-screening-platform",
     "private":  true,
-    "proxy":  "https://api.empikaai.com",
+
     "version":  "0.0.0",
     "type":  "module",
     "scripts":  {
