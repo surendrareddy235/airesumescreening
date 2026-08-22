@@ -28,11 +28,28 @@ export const matchResume = async (file, params = {}) => {
   }
 };
 
-export const listAllJobs = async (skip = 0, limit = 50) => {
+export const listAllJobs = async (skip = 0, limit = 50, filters = {}) => {
   try {
-    const response = await api.get(`/api/search/job_search/?skip=${skip}&limit=${limit}`);
+    const params = { skip, limit };
+    if (filters.role) params.role = filters.role;
+    if (filters.location) params.location = filters.location;
+    if (filters.experience !== undefined && filters.experience !== '') params.experience = filters.experience;
+    const response = await api.get('/api/search/job_search/', { params });
+    const { items = [], total = 0 } = response.data;
+    return { items, total };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getJobDetail = async (jobId) => {
+  try {
+    const response = await api.get(`/api/search/job_search/${jobId}`);
     return response.data;
   } catch (error) {
+    if (error.response?.data?.detail) {
+      throw new Error(error.response.data.detail);
+    }
     throw error;
   }
 };

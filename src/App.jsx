@@ -29,6 +29,7 @@ import ProtectedRoute from "./components/common/ProtectedRoutes";
 import Profile from "./components/common/Profile";
 import NeuralDashboardLayout from "./components/common/DashboardLayout";
 import ResumeOptimizerPage from "./pages/JobSearch/ResumeOptimizerPage";
+import JobSearchHubPage from "./pages/JobSearch/JobSearchHubPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 
@@ -162,8 +163,8 @@ export default function App() {
 
             {/* Neural Dashboard Layout Routes */}
             <Route element={<ProtectedRoute />}>
+              <Route path="/job-search" element={<JobSearchHubPage />} />
               <Route element={<NeuralDashboardLayout />}>
-                <Route path="/job-search" element={<UnderDevelopmentPage title="Job Search" message="The job search experience is still being built. Please check back soon." />} />
                 <Route path="/resume-optimizer" element={<ResumeOptimizerPage />} />
               </Route>
             </Route>
