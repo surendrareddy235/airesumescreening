@@ -158,6 +158,10 @@ const useAuth = () => {
     sendCode,
     verifyCode,
 
+    /* Password Reset */
+    forgotPassword,
+    resetPassword,
+
     password,
     logoutUser,
     isCodeSent,
