@@ -37,6 +37,13 @@ export default function useDashboard() {
   }, [jobId]);
   useEffect(() => {
     if (!jobsData) return;
+    
+    // Defensive check: ensure jobsData is an array
+    if (!Array.isArray(jobsData)) {
+      console.warn("❌ jobsData is not an array:", jobsData);
+      setRows([]);
+      return;
+    }
 
     const formattedRows = jobsData.map((job, index) => ({
       id: job.job_id,

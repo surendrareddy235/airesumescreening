@@ -5,11 +5,30 @@ const useAPI = (apiFunc) => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const extractData = (response) => {
+        // Handle different response formats from backend
+        // Priority: response.data.data > response.data.result > response.data > response
+        let extractedData = null;
+        
+        if (response?.data?.data !== undefined) {
+            extractedData = response.data.data; // Nested format
+        } else if (response?.data?.result !== undefined) {
+            extractedData = response.data.result; // Alternative nested format
+        } else if (response?.data !== undefined) {
+            extractedData = response.data; // Direct format
+        } else {
+            extractedData = response; // Fallback
+        }
+        
+        return extractedData;
+    };
+
     const request = async (...args) => {
         setLoading(true);
         try {
             const response = await apiFunc(...args);
-            setData(response.data?.data ?? response.data);
+            const extractedData = extractData(response);
+            setData(extractedData);
             return response;
         } catch (err) {
             setError(err);

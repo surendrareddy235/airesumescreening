@@ -10,7 +10,9 @@ export default function useCandidates() {
         try {
             setCandidatesLoading(true);
             const res = await getCandidatesApi(jobId);
-            setCandidatesData(Array.isArray(res?.data) ? res.data : []);
+            // Ensure data is an array
+            const candidatesArray = Array.isArray(res?.data) ? res.data : [];
+            setCandidatesData(candidatesArray);
         } catch (err) {
             console.error("❌ Failed to fetch candidates", err);
             setCandidatesData([]);
