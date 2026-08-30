@@ -55,6 +55,11 @@ const DataGrid = (props) => {
     /* ---------------- Merge defaultColDef ---------------- */
 
     const mergedColumns = useMemo(() => {
+        // Defensive check: ensure columns is an array
+        if (!Array.isArray(columns)) {
+            console.warn("❌ columns is not an array:", columns);
+            return [];
+        }
         return columns.map((col) => ({
             ...defaultColDef,
             ...col,
