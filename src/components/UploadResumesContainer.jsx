@@ -74,6 +74,7 @@ export default function UploadResumesContainer({
     const [loaderMessage, setLoaderMessage] = useState(
         "Uploading resumes..."
     );
+    const [uploadError, setUploadError] = useState(null);
 
     const {
         register,
@@ -95,6 +96,7 @@ export default function UploadResumesContainer({
             reset();
             setShowLoader(false);
             setLoaderMessage("Uploading resumes...");
+            setUploadError(null);
         }
     }, [open, reset]);
 
@@ -104,6 +106,7 @@ export default function UploadResumesContainer({
     const onSubmit = async (data) => {
         setShowLoader(true);
         setLoaderMessage("Uploading resumes...");
+        setUploadError(null);
 
         try {
             await uploadResumes(jobId, data.resumes);
@@ -113,7 +116,15 @@ export default function UploadResumesContainer({
             onUploadCompleted?.();
         } catch (err) {
             console.error("❌ Upload error:", err);
-            alert("Failed to upload resumes. Please try again.");
+            
+            // Extract error message from backend response
+            const errorMessage = 
+                err?.response?.data?.detail ||
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to upload resumes. Please try again.";
+            
+            setUploadError(errorMessage);
             setShowLoader(false);
         }
     };
@@ -161,6 +172,16 @@ export default function UploadResumesContainer({
                                 {errors.resumes && (
                                     <Alert severity="error">
                                         {errors.resumes.message}
+                                    </Alert>
+                                )}
+
+                                {uploadError && (
+                                    <Alert 
+                                        severity="error" 
+                                        onClose={() => setUploadError(null)}
+                                        sx={{ whiteSpace: "pre-wrap" }}
+                                    >
+                                        {uploadError}
                                     </Alert>
                                 )}
 
