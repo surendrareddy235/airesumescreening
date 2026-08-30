@@ -25,8 +25,22 @@ export default function CandidatesGrid({ onDataLoaded }) {
   }, [candidatesData, onDataLoaded]);
   const handleExportExcel = () => {
     if (!Array.isArray(candidatesData) || candidatesData.length === 0) return;
-    const exportData = candidatesData.map(({ id, ...rest }) => rest);
-    ExportToExcel(exportData, "Candidates_Report");
+    
+    // Define fields to export with their display labels - only selected fields
+    const fieldsToExport = [
+      { key: "name", label: "Name" },
+      { key: "email", label: "Email" },
+      { key: "phone", label: "Phone" },
+      { key: "experience_years", label: "Experience (Years)" },
+      { key: "education_level", label: "Education" },
+      { key: "skills", label: "Skills" },
+      { key: "match_score", label: "Match %" },
+      { key: "status", label: "Status" },
+      { key: "reasoning", label: "Reasoning" },
+      { key: "location", label: "Location" },
+    ];
+    
+    ExportToExcel(candidatesData, "Candidates_Report", fieldsToExport);
   };
   const styles = {
     // container: {

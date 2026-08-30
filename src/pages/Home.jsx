@@ -614,6 +614,88 @@ function UseCases({ items }) {
   );
 }
 
+function ProductDemo() {
+  return (
+    <Box 
+      component="section" 
+      sx={{ 
+        py: { xs: 8, sm: 10 },
+        bgcolor: "rgba(25, 118, 210, 0.03)",
+        borderTop: "1px solid",
+        borderBottom: "1px solid",
+        borderColor: "divider",
+      }} 
+      id="demo"
+    >
+      <Container maxWidth="lg">
+        <Box textAlign="center" mb={6}>
+          <Chip
+            icon={<LucideIcon name="play-circle" size={16} />}
+            label="Product Walkthrough"
+            sx={{
+              bgcolor: "rgba(37,99,235,0.1)",
+              color: "primary.main",
+              fontWeight: 600,
+              mb: 2,
+            }}
+          />
+          <Typography
+            variant="h3"
+            fontWeight={800}
+            gutterBottom
+            sx={{ mb: 2 }}
+          >
+            See it in Action
+          </Typography>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ maxWidth: 600, mx: "auto", mb: 4 }}
+          >
+            Watch our step-by-step guide showing how to create jobs, upload resumes, and screen candidates efficiently with AI-powered insights.
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: "900px",
+              aspectRatio: "16/9",
+              borderRadius: 3,
+              overflow: "hidden",
+              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.15)",
+              border: "1px solid",
+              borderColor: "divider",
+            }}
+          >
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://embed.app.guidde.com/playbooks/ej5oEHhXtBS1W4SHZuBo8Q?mode=videoOnly"
+              title="Demonstrate AI Resume Screening With EmpikaAI Platform"
+              frameBorder="0"
+              referrerPolicy="unsafe-url"
+              allowFullScreen
+              allow="clipboard-write; clipboard-read; accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              sandbox="allow-popups allow-popups-to-escape-sandbox allow-scripts allow-forms allow-same-origin allow-presentation"
+              style={{
+                borderRadius: "10px",
+              }}
+            />
+          </Box>
+        </Box>
+      </Container>
+    </Box>
+  );
+}
+
 function FinalCTA({ onClick, onViewPricing }) {
   const navigate = useNavigate();
   return (
@@ -813,6 +895,7 @@ export default function Home() {
 
       <WhyChooseUs items={whyChoose} />
       <UseCases items={useCases} />
+      <ProductDemo />
       <FinalCTA
         onClick={onSecondary}
         onViewPricing={() => navigate("/pricing")}

@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Person, Email, Lock, LockOpen, VpnKey, WorkOutline, DescriptionOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { keyframes } from "@emotion/react";
 import { API_BASE_URL } from "../config";
@@ -44,9 +45,14 @@ const SignupPage = () => {
   } = useAuth();
 
   const selectedPurpose = signupWatch("signup_purpose");
+  const [purposeError, setPurposeError] = useState(false);
 
   const handleGoogleLogin = () => {
-    if (!selectedPurpose) return;
+    if (!selectedPurpose) {
+      setPurposeError(true);
+      return;
+    }
+    setPurposeError(false);
     window.location.href = `${API_BASE_URL}/api/auth/login/google?purpose=${selectedPurpose}`;
   };
 
@@ -134,8 +140,15 @@ const SignupPage = () => {
                 signupSetValue("signup_purpose", e.target.value, {
                   shouldValidate: true,
                 });
+                setPurposeError(false);
               }}
-              sx={{ gap: 1 }}
+              sx={{
+                gap: 1,
+                padding: "8px",
+                borderRadius: "6px",
+                border: purposeError ? "2px solid #ef4444" : "2px solid transparent",
+                transition: "all 0.3s ease",
+              }}
             >
               <FormControlLabel
                 value="resume_screening"
@@ -211,6 +224,11 @@ const SignupPage = () => {
             {signupErrors.signup_purpose && (
               <FormHelperText error sx={{ ml: 0.5 }}>
                 {signupErrors.signup_purpose.message}
+              </FormHelperText>
+            )}
+            {purposeError && !selectedPurpose && (
+              <FormHelperText error sx={{ ml: 0.5 }}>
+                Please select at least one option to continue
               </FormHelperText>
             )}
           </Box>

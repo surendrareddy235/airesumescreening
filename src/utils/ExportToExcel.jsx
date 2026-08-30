@@ -1,9 +1,23 @@
 import * as XLSX from "xlsx-js-style";
 
-export const ExportToExcel = (data, filename = "data") => {
+export const ExportToExcel = (data, filename = "data", fieldsToExport = null) => {
     if (!data || !data.length) return;
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
+    // Filter data to only include specified fields, or use all fields if not specified
+    let filteredData = data;
+    if (fieldsToExport && Array.isArray(fieldsToExport)) {
+        filteredData = data.map((row) => {
+            const filtered = {};
+            fieldsToExport.forEach((field) => {
+                if (field.key in row) {
+                    filtered[field.label || field.key] = row[field.key];
+                }
+            });
+            return filtered;
+        });
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
     const range = XLSX.utils.decode_range(worksheet["!ref"]);
 
     for (let col = range.s.c; col <= range.e.c; col++) {
@@ -26,10 +40,10 @@ export const ExportToExcel = (data, filename = "data") => {
     const MIN_WIDTH = 12;
     const MAX_WIDTH = 35;
 
-    worksheet["!cols"] = Object.keys(data[0]).map((key) => {
+    worksheet["!cols"] = Object.keys(filteredData[0]).map((key) => {
         const maxContentLength = Math.max(
             key.length,
-            ...data.map((row) => String(row[key] ?? "").length)
+            ...filteredData.map((row) => String(row[key] ?? "").length)
         );
 
         return {
